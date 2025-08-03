@@ -2,6 +2,6 @@ package example
 
 allow {
     input.user == "bob"
-    input.action == "read"
+    input.action == "write"
     input.resource == "document2"
 }
