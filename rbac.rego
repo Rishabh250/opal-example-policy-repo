@@ -7,15 +7,11 @@ import future.keywords.every
 default allow = false
 
 allow {
-    # Decode JWT without signature verification (for testing)
-    [_, _, claims] := io.jwt.decode(input.token)
-
-    # Continue with other policy rules, using the `claims` object.
-    check_claims(claims)
-}
-
-# A separate rule to contain the more specific checks.
-check_claims(claims) {
-    claims.aud[_] == "platform"
-    claims.iss == "abc merchant"
+    # Manual JWT payload decoding (base64 decode the middle part)
+    parts := split(input.token, ".")
+    payload := json.unmarshal(base64url.decode(parts[1]))
+    
+    # Check the claims manually
+    payload.aud[_] == "platform"
+    payload.iss == "abc merchant"
 }
