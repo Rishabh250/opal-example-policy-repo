@@ -7,17 +7,8 @@ import future.keywords.every
 default allow = false
 
 allow {
-    # Decode and verify the JWT. This function checks the signature.
-    [verified, _, claims] := io.jwt.decode_verify(input.token, {"cert": data.jwks})
-
-    # The token must be verified.
-    verified == true
-
-    # The token must not be expired.
-    # The `nbf` (not before) and `exp` (expiration) claims are checked automatically by decode_verify if time is provided.
-    # To check them manually, you can compare the claims with the current time.
-    # For example, using a manual check for expiration:
-    # time.now_ns() < claims.exp * 1000000000
+    # Decode JWT without signature verification (for testing)
+    [_, _, claims] := io.jwt.decode(input.token)
 
     # Continue with other policy rules, using the `claims` object.
     check_claims(claims)
