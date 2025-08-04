@@ -16,6 +16,6 @@ allow {
 
 # A separate rule to contain the more specific checks.
 check_claims(claims) {
-    claims.aud == "your-api-audience"
-    claims.iss == "https://your-identity-provider.com"
+    claims.aud[_] == "platform"
+    claims.iss == "abc merchant"
 }
